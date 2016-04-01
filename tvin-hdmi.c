@@ -29,11 +29,12 @@
 #include <linux/input.h>
 
 //#include "./../lichee/linux-2.6.36/include/linux/drv_display_sun4i.h"//modify this
-#include "/home/enrico/dev/linux-sunxi-hans/include/video/sunxi_disp_ioctl.h"
+//#include "/home/enrico/dev/linux-sunxi-hans/include/video/sunxi_disp_ioctl.h"
+#include "sunxi_disp_ioctl.h"
 
 #define DISPLAY
 #define LCD_WIDTH	1280
-#define LCD_HEIGHT	720
+#define LCD_HEIGHT	1024
 
 #define CLEAR(x) memset (&(x), 0, sizeof (x))
 
@@ -299,16 +300,16 @@ int main(int argc, char* argv[])
 	CLEAR (fmt_priv);
 	fmt_priv.type                = V4L2_BUF_TYPE_PRIVATE;
 	fmt_priv.fmt.raw_data[0] =0;//interface
-	fmt_priv.fmt.raw_data[1] =0;//system
+	fmt_priv.fmt.raw_data[1] =1;//0;//system
 	fmt_priv.fmt.raw_data[2] =0;//format 1=mb, for test only
 		
-	fmt_priv.fmt.raw_data[8] =2;//row
-	fmt_priv.fmt.raw_data[9] =2;//column
+	fmt_priv.fmt.raw_data[8] =1;//2;//row
+	fmt_priv.fmt.raw_data[9] =1;//2;//column
 	
 	fmt_priv.fmt.raw_data[10] =1;//channel_index
-	fmt_priv.fmt.raw_data[11] =2;//channel_index
-	fmt_priv.fmt.raw_data[12] =3;//channel_index
-	fmt_priv.fmt.raw_data[13] =4;//channel_index
+	fmt_priv.fmt.raw_data[11] =0;//2;//channel_index
+	fmt_priv.fmt.raw_data[12] =0;//3;//channel_index
+	fmt_priv.fmt.raw_data[13] =0;//4;//channel_index
 	if (-1 == ioctl (fd, VIDIOC_S_FMT, &fmt_priv)) //设置自定义
 	{
 		printf("VIDIOC_S_FMT error!  a\n");

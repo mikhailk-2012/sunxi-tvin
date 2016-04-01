@@ -1,4 +1,5 @@
-CC = arm-angstrom-linux-gnueabi-gcc
+#CC = arm-angstrom-linux-gnueabi-gcc
+CC = /media/Sky-soft/a20/gcc-linaro-arm-linux-gnueabihf-4.7/bin/arm-linux-gnueabihf-gcc
 
 CFLAGS = -Wall 
 LDFLAGS = -static 
