@@ -310,8 +310,9 @@ int disp_exit()
 
 
 void print_usage() {
-	printf("Usage: sunxi-tvin [-o filename]\n");
+	printf("Usage: sunxi-tvin -s pal|ntsc [-o filename]\n");
 	printf(" -o filename copy raw stream to file [buggy ***FIXME***]\n");
+	printf(" -s pal|ntsc set video system\n");
 }
 
 int main(int argc, char* argv[])
@@ -321,18 +322,38 @@ int main(int argc, char* argv[])
 	struct input_event data;
 	struct sigaction sigact;
 	int option = 0;
+	int system_opt = -1;
 
 	//Specifying the expected options
 	//The two options l and b expect numbers as argument
-	while ((option = getopt(argc, argv,"o:h")) != -1) {
+	while ((option = getopt(argc, argv,"hs:o:")) != -1) {
 		switch (option) {
-		case 'o' : file_name = optarg;
-		break;
-		case 'h' : print_usage();
-		exit(0);
-		//default: print_usage();
-		//exit(EXIT_FAILURE);
+		case 'h' :
+			print_usage();
+			exit(0);
+		case 'o' :
+			file_name = optarg;
+			break;
+		case 's' :
+			if (strcmp(optarg, "ntsc") == 0) {
+				system_opt = 0;
+				printf("NTSC system\n");
+				break;
+			}
+			if (strcmp(optarg, "pal") == 0) {
+				system_opt = 1;
+				printf("PAL system\n");
+				break;
+			}
+		default:
+			print_usage();
+			exit(EXIT_FAILURE);
 		}
+	}
+
+	if (system_opt < 0) {
+		print_usage();
+		exit(EXIT_FAILURE);
 	}
 
 	if (file_name != NULL)
@@ -377,7 +398,7 @@ int main(int argc, char* argv[])
 	CLEAR (fmt_priv);
 	fmt_priv.type                = V4L2_BUF_TYPE_PRIVATE;
 	fmt_priv.fmt.raw_data[0] =0;//interface
-	fmt_priv.fmt.raw_data[1] =1;//0;//system   0-ntsc 1-pal
+	fmt_priv.fmt.raw_data[1] =system_opt; //system   0-ntsc 1-pal
 	fmt_priv.fmt.raw_data[2] =0;//format 1=mb, for test only
 
 	fmt_priv.fmt.raw_data[8] =1;//2;//row
