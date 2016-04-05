@@ -1,0 +1,41 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+
+
+
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.so
+
+# Executables
+*.exe
+*.out
+*.app
+*.hex
+sunxi-tvin
+
+# workspace
+.cproject
+.project
+RemoteSystemsTempFiles/
+.metadata/
+
+
+# video files
+*.nv12
+*.yuv
+*.h264
+*.264
+
+
